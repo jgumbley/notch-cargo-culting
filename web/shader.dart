@@ -57,13 +57,13 @@ Shader quadShader = new Shader("""
   varying vec2 v_texcoord;
   
   uniform sampler2D u_tex;
-  uniform vec3 u_color;
+  uniform vec4 u_color;
   
   void main() {
     vec4 col = texture2D(u_tex, v_texcoord);
     col = vec4(1.0, 0.0, 1.0, 1.0);
     if (col.a>0.0){
-      gl_FragColor = col*vec4(u_color, 1.0);
+      gl_FragColor = col*u_color;
     } else {
       discard;
     }

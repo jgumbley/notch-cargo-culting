@@ -1,5 +1,8 @@
-name: Game
+name: game
+version: 0.0.1
+author: Jim Gumbley <j.gumbley@gmail.com>
 description: A sample web application
+homepage: http://www.jgumbley.com/
 dependencies:
   browser: any
   vector_math: any
