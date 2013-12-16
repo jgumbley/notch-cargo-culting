@@ -1,0 +1,9 @@
+packages/
+*.js_
+*.js.deps
+*.js.map
+pubspec.lock
+build
+
+// Avoid committing generated JavaScript files
+*.dart.js
