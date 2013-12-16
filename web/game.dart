@@ -29,7 +29,7 @@ class Quad {
     vertexArray.setAll(0*3, [0.0, 0.0, 0.0]);
     vertexArray.setAll(1*3, [0.0, 1.0, 0.0]);
     vertexArray.setAll(2*3, [1.0, 1.0, 0.0]);
-    vertexArray.setAll(3*3, [0.0, 0.0, 0.0]);
+    vertexArray.setAll(3*3, [1.0, 0.0, 0.0]);
     
     Int16List indexArray = new Int16List(6);
     indexArray.setAll(0, [0, 1, 2, 0, 2, 3]);
