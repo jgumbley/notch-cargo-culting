@@ -57,9 +57,9 @@ class Quad {
   /* location, dimensions, texture offset */
   void render(int x, int y, int w, int h, int uo, int va, Vector4 color) {
     objectMatrix.setIdentity();
-    //objectMatrix.scale(w*1.0, h*1.0, 0.0);
+    objectMatrix.translate(0.0, 0.0, -1.0);
     objectMatrix.translate(x*1.0, y*1.0, 0.0);
-    objectMatrix.translate(0.0, 0.0, -0.5);
+    objectMatrix.scale(w*1.0, h*1.0, 0.0);
     gl.uniformMatrix4fv(objectTransformLocation, false, objectMatrix.storage);
     gl.uniform4fv(colorLocation, color.storage);
     
@@ -82,10 +82,10 @@ class Game {
     gl.clear(WebGL.COLOR_BUFFER_BIT);
     
     viewMatrix = makePerspectiveMatrix(fov*Math.PI/180, canvas.width/canvas.height, 0.01, 100.0);
-    cameraMatrix = new Matrix4.identity();
     
-    quad.setCamera(viewMatrix, cameraMatrix);
-    
+    double scale = 1.0 / canvas.height;
+    cameraMatrix = new Matrix4.identity().scale(scale, scale, 1.0);
+    quad.setCamera(viewMatrix, cameraMatrix);  
     Vector4 whiteColour = new Vector4(0.0, 0.0, 1.0, 1.0);
     quad.render(0, 0, 16, 16, 0, 0, whiteColour);
     
