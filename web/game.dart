@@ -8,6 +8,7 @@ import 'package:vector_math/vector_math.dart';
 
 part 'shader.dart';
 part 'quad.dart';
+part 'texture.dart';
 
 /* rendering context global */
 WebGL.RenderingContext gl;
@@ -19,7 +20,7 @@ class Game {
   Math.Random random;
   Quad quad;
   Matrix4 viewMatrix, cameraMatrix;
-  Texture sheetTexture;
+  Texture sheetTexture = new Texture("tex/sheet.png");
   
   double fov = 90.0;
   
@@ -33,6 +34,9 @@ class Game {
     double scale = 6.0 / canvas.height;
     cameraMatrix = new Matrix4.identity().scale(scale, scale, 1.0);
     quad.setCamera(viewMatrix, cameraMatrix);  
+    
+    quad.setTexture(sheetTexture);
+    
     Vector4 whiteColour = new Vector4(1.0, 1.0, 1.0, 1.0);
     quad.render(0, 0, 24, 95, 0, 0, whiteColour);
     
@@ -49,7 +53,7 @@ class Game {
     }
     
     quad = new Quad(quadShader);
-    sheetTexture = new Texture("tex/sheet.png");
+    Texture.loadAll();
     
     if (gl!=null) {
       /* Register render function with browser for repaint */
@@ -58,42 +62,6 @@ class Game {
   }
 }
 
-class Texture {
-  static List<Texture> _pendingTextures = new List<Texture>();
-  
-  String url;
-  WebGL.Texture texture;
-  int width, height;
-  bool loaded = false;
-  
-  Texture(this.url) {
-    if (gl==null) {
-      _pendingTextures.add(this);
-    } else {
-      _load();
-    }
-  }
-  
-  static void loadAll() {
-    _pendingTextures.forEach((e)=>e._load());
-    _pendingTextures.clear();
-  }
-  
-  void _load() {
-    ImageElement img = new ImageElement();
-    texture = gl.createTexture();
-    img.onLoad.listen((e) {
-      gl.bindTexture(WebGL.TEXTURE_2D, texture);
-      gl.texImage2DImage(WebGL.TEXTURE_2D, 0, WebGL.RGBA, WebGL.RGBA, WebGL.UNSIGNED_BYTE, img);
-      gl.texParameteri(WebGL.TEXTURE_2D, WebGL.TEXTURE_MIN_FILTER, WebGL.NEAREST);
-      gl.texParameteri(WebGL.TEXTURE_2D, WebGL.TEXTURE_MAG_FILTER, WebGL.NEAREST);
-      width = img.width;
-      height = img.height;
-      loaded = true;
-    });
-    img.src = url;
-  }
-}
 
 void main() {
   new Game().start();

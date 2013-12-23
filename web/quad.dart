@@ -6,6 +6,10 @@ class Quad {
   WebGL.UniformLocation objectTransformLocation, cameraTransformLocation, viewTransformLocation, textureTransformLocation;
   WebGL.UniformLocation colorLocation;
   
+  Texture texture;
+  double texHeight;
+  double texWidth;
+  
   Quad(this.shader){
     posLocation = gl.getAttribLocation(shader.program, "a_pos");
     
@@ -43,20 +47,24 @@ class Quad {
     gl.uniformMatrix4fv(cameraTransformLocation, false, cameraMatrix.storage);
   }
   
+  void setTexture (Texture texture) {
+    this.texture = texture;
+    gl.bindTexture(WebGL.TEXTURE_2D, texture.texture);
+  }
+  
   Matrix4 objectMatrix = new Matrix4.identity();
   Matrix4 textureMatrix = new Matrix4.identity();
   /* location, dimensions, texture offset */
   void render(int x, int y, int w, int h, int uo, int va, Vector4 color) {
+    if (!texture.loaded) return;
+    
     objectMatrix.setIdentity();
     objectMatrix.translate(x*1.0, y*1.0, -1.0);
     objectMatrix.scale(w*1.0, h*-1.0, 0.0);
     gl.uniformMatrix4fv(objectTransformLocation, false, objectMatrix.storage);
     
-    double texHeight = 256.0;
-    double texWidth = 256.0;
-    
     textureMatrix.setIdentity();
-    textureMatrix.scale(1.0/texWidth, 1.0/texHeight, -1.0);
+    textureMatrix.scale(1.0/texture.width, 1.0/texture.height, -1.0);
     textureMatrix.translate(uo*1.0, va*1.0, 0.0);
     textureMatrix.scale(w*1.0, h*1.0, 0.0);
     gl.uniformMatrix4fv(textureTransformLocation, false, textureMatrix.storage);   
