@@ -49,7 +49,7 @@ class Quad {
   void render(int x, int y, int w, int h, int uo, int va, Vector4 color) {
     objectMatrix.setIdentity();
     objectMatrix.translate(x*1.0, y*1.0, -1.0);
-    objectMatrix.scale(w*1.0, h*1.0, 0.0);
+    objectMatrix.scale(w*1.0, h*-1.0, 0.0);
     gl.uniformMatrix4fv(objectTransformLocation, false, objectMatrix.storage);
     
     double texHeight = 256.0;
