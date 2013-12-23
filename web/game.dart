@@ -25,12 +25,12 @@ class Game {
   
   void render(double time) {
     gl.viewport(0, 0, canvas.width, canvas.height);
-    gl.clearColor(random.nextDouble() , random.nextDouble(), random.nextDouble(), random.nextDouble());
+    gl.clearColor(1, 0.816, 0.451, 255.0);
     gl.clear(WebGL.COLOR_BUFFER_BIT);
     
     viewMatrix = makePerspectiveMatrix(fov*Math.PI/180, canvas.width/canvas.height, 0.01, 100.0);
     
-    double scale = 2.0 / canvas.height;
+    double scale = 6.0 / canvas.height;
     cameraMatrix = new Matrix4.identity().scale(scale, scale, 1.0);
     quad.setCamera(viewMatrix, cameraMatrix);  
     Vector4 whiteColour = new Vector4(1.0, 1.0, 1.0, 1.0);
