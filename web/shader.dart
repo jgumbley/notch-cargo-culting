@@ -44,11 +44,12 @@ Shader quadShader = new Shader("""
   uniform mat4 u_objectTransform;
   uniform mat4 u_cameraTransform;
   uniform mat4 u_viewTransform;
+  uniform mat4 u_textureTransform;
   
   varying vec2 v_texcoord;
   
   void main() {
-    v_texcoord = a_pos.xy/16.0;
+    v_texcoord = (u_textureTransform*vec4(a_pos, 1.0)).xy;
     vec4 pos = u_viewTransform*u_cameraTransform*u_objectTransform*vec4(a_pos, 1.0);
     gl_Position = pos;
   }

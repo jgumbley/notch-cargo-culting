@@ -21,7 +21,7 @@ class Game {
   Matrix4 viewMatrix, cameraMatrix;
   Texture sheetTexture;
   
-  double fov = 20.0;
+  double fov = 90.0;
   
   void render(double time) {
     gl.viewport(0, 0, canvas.width, canvas.height);
@@ -30,11 +30,11 @@ class Game {
     
     viewMatrix = makePerspectiveMatrix(fov*Math.PI/180, canvas.width/canvas.height, 0.01, 100.0);
     
-    double scale = 0.5 / canvas.height;
+    double scale = 2.0 / canvas.height;
     cameraMatrix = new Matrix4.identity().scale(scale, scale, 1.0);
     quad.setCamera(viewMatrix, cameraMatrix);  
     Vector4 whiteColour = new Vector4(1.0, 1.0, 1.0, 1.0);
-    quad.render(0, 0, 95, 95, 0, 0, whiteColour);
+    quad.render(0, 0, 24, 95, 0, 0, whiteColour);
     
     /* need to register call back to register next paint to paint */
     window.requestAnimationFrame(render);
